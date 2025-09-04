@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'utils/theme.dart';
 import 'models/finance_models.dart';
 import 'screens/dashboard_screen.dart';
@@ -40,17 +42,51 @@ class _FinanceCloudAppState extends State<FinanceCloudApp> {
       title: 'FinanceCloud',
       debugShowCheckedModeBanner: false,
       theme: buildTheme(),
+
+      // 🔑 Delegados de localización necesarios para DatePickerDialog
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
+      // 🌍 Idiomas soportados (agrega más si necesitas)
+      supportedLocales: const [
+        Locale('en'), // Inglés
+        Locale('es'), // Español
+      ],
+
       home: Scaffold(
         body: SafeArea(child: screens[_currentIndex]),
         bottomNavigationBar: NavigationBar(
           selectedIndex: _currentIndex,
           onDestinationSelected: (i) => setState(() => _currentIndex = i),
           destinations: const [
-            NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Inicio'),
-            NavigationDestination(icon: Icon(Icons.add_circle_outline), selectedIcon: Icon(Icons.add_circle), label: 'Agregar'),
-            NavigationDestination(icon: Icon(Icons.receipt_long_outlined), selectedIcon: Icon(Icons.receipt_long), label: 'Transacciones'),
-            NavigationDestination(icon: Icon(Icons.show_chart_outlined), selectedIcon: Icon(Icons.show_chart), label: 'Reportes'),
-            NavigationDestination(icon: Icon(Icons.person_outline), selectedIcon: Icon(Icons.person), label: 'Perfil'),
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'Inicio',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.add_circle_outline),
+              selectedIcon: Icon(Icons.add_circle),
+              label: 'Agregar',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.receipt_long_outlined),
+              selectedIcon: Icon(Icons.receipt_long),
+              label: 'Transacciones',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.show_chart_outlined),
+              selectedIcon: Icon(Icons.show_chart),
+              label: 'Reportes',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
           ],
         ),
       ),

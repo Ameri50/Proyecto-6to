@@ -15,18 +15,36 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   TxType _type = TxType.expense;
 
   final _amountCtrl = TextEditingController();
-  final _categoryCtrl = TextEditingController();
   final _dateCtrl = TextEditingController();
-  final _methodCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
   DateTime? _selectedDate;
+  String? _selectedCategory;
+  String? _selectedMethod;
+
+  final List<String> _categories = [
+    'Transporte',
+    'Alimentación',
+    'Suministros',
+    'Ventas',
+    'Salud',
+    'Educación',
+    'Entretenimiento',
+    'Otros'
+  ];
+
+  final List<String> _paymentMethods = [
+    'Tarjeta Visa',
+    'Tarjeta MasterCard',
+    'Transferencia',
+    'Efectivo',
+    'Cheque',
+    'Otro'
+  ];
 
   @override
   void dispose() {
     _amountCtrl.dispose();
-    _categoryCtrl.dispose();
     _dateCtrl.dispose();
-    _methodCtrl.dispose();
     _descCtrl.dispose();
     super.dispose();
   }
@@ -53,9 +71,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     final tx = FinanceTransaction(
       title: _descCtrl.text.trim().split('\n').first,
       amount: double.tryParse(_amountCtrl.text.replaceAll(',', '')) ?? 0,
-      category: _categoryCtrl.text.trim(),
+      category: _selectedCategory ?? '',
       date: _selectedDate ?? DateTime.now(),
-      paymentMethod: _methodCtrl.text.trim().isEmpty ? 'N/D' : _methodCtrl.text.trim(),
+      paymentMethod: _selectedMethod ?? 'N/D',
       type: _type,
       description: _descCtrl.text.trim(),
     );
@@ -66,6 +84,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       setState(() {
         _type = TxType.expense;
         _selectedDate = null;
+        _selectedCategory = null;
+        _selectedMethod = null;
         _dateCtrl.clear();
       });
     }
@@ -101,10 +121,14 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             ),
             const SizedBox(height: 12),
 
-            TextFormField(
-              controller: _categoryCtrl,
+            DropdownButtonFormField<String>(
+              initialValue: _selectedCategory,
               decoration: const InputDecoration(labelText: 'Categoría*'),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Requerido' : null,
+              items: _categories
+                  .map((cat) => DropdownMenuItem(value: cat, child: Text(cat)))
+                  .toList(),
+              onChanged: (val) => setState(() => _selectedCategory = val),
+              validator: (v) => (v == null || v.isEmpty) ? 'Requerido' : null,
             ),
             const SizedBox(height: 12),
 
@@ -119,9 +143,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             ),
             const SizedBox(height: 12),
 
-            TextFormField(
-              controller: _methodCtrl,
+            DropdownButtonFormField<String>(
+              initialValue: _selectedMethod,
               decoration: const InputDecoration(labelText: 'Método de pago'),
+              items: _paymentMethods
+                  .map((method) => DropdownMenuItem(value: method, child: Text(method)))
+                  .toList(),
+              onChanged: (val) => setState(() => _selectedMethod = val),
             ),
             const SizedBox(height: 12),
 

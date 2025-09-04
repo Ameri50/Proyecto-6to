@@ -1,0 +1,5 @@
+- [x] Agregar listas de categorías y métodos de pago en el estado de AddTransactionScreen
+- [x] Reemplazar TextFormField de categoría con DropdownButtonFormField con scroll
+- [x] Reemplazar TextFormField de método de pago con DropdownButtonFormField con scroll
+- [x] Actualizar el método _submit para usar los valores seleccionados
+- [ ] Probar la funcionalidad de scroll en las listas desplegables
